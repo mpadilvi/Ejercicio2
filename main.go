@@ -37,7 +37,6 @@ func GetHost(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	json.NewEncoder(w).Encode(&host{})
 }
 
 //Eliminar elemento
@@ -47,9 +46,8 @@ func DeleteHost(w http.ResponseWriter, r *http.Request) {
 		if item.Id == params["id"] {
 			h.Hostings = append(h.Hostings[:index], h.Hostings[index+1:]...)
 			break
-		}else {fmt.Println("No existe el ID")}
+		}
 	}
-	json.NewEncoder(w).Encode(h.Hostings)
 }
 
 //Crear elemento
@@ -57,24 +55,25 @@ func CreateHost (w http.ResponseWriter, r *http.Request) {
 	var newhost host
 	_ = json.NewDecoder(r.Body).Decode(&newhost)
 	h.Hostings = append(h.Hostings, newhost)
-	json.NewEncoder(w).Encode(h.Hostings)
 }
 
 //Editar elemento
 func EditHost (w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
 	var edit host
 	_ = json.NewDecoder(r.Body).Decode(&edit)
 	for index, item := range h.Hostings {
-		if item.Id == edit.Id {
-			h.Hostings[index].Id=edit.Id
+		if item.Id == params["id"] {
+			if edit.Id!="" {h.Hostings[index].Id=edit.Id}
 			if edit.Name!="" {h.Hostings[index].Name=edit.Name}
 			if edit.Cores!="" {h.Hostings[index].Cores=edit.Cores}
 			if edit.Mem!="" {h.Hostings[index].Mem=edit.Mem}
 			if edit.Disk!="" {h.Hostings[index].Disk=edit.Disk}
-			break
-		}else {fmt.Println("No existe el ID")}
+			json.NewEncoder(w).Encode(h.Hostings[index])
+			return
+		}
 	}
-	json.NewEncoder(w).Encode(h.Hostings)
+	
 }
 
 func main(){
