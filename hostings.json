@@ -1,0 +1,18 @@
+{
+"Hostings":[
+		{
+		"Id":"1",
+		"Nombre":"Uno",
+		"Cores":"1",
+		"Memoria":"1024",
+		"Disco":"10"
+		},
+		{
+		"Id":"2",
+		"Nombre":"Dos",
+		"Cores":"2",
+		"Memoria":"2048",
+		"Disco":"20"
+		}
+	]
+}
